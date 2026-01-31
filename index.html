@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books | Rasmus Hyllengren</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="/" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>Back</span>
+            </a>
+            <div class="header-content">
+                <h1>Books</h1>
+                <p class="subtitle">A collection of audiobooks I've listened to</p>
+            </div>
+        </header>
+
+        <section class="stats-overview" id="stats-overview">
+            <div class="stat-card total">
+                <span class="stat-number" id="total-books">—</span>
+                <span class="stat-label">Books Finished</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="this-year-books">—</span>
+                <span class="stat-label" id="this-year-label">This Year</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="years-reading">—</span>
+                <span class="stat-label">Years of Listening</span>
+            </div>
+        </section>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="finished">
+                <span class="tab-label">Finished</span>
+                <span class="tab-count" id="finished-count">0</span>
+            </button>
+            <button class="tab" data-tab="saved">
+                <span class="tab-label">Saved</span>
+                <span class="tab-count" id="saved-count">0</span>
+            </button>
+        </nav>
+
+        <main class="content">
+            <div id="finished-content" class="tab-content active">
+                <div id="finished-books" class="books-by-year"></div>
+            </div>
+            <div id="saved-content" class="tab-content">
+                <div id="saved-books" class="books-by-year"></div>
+            </div>
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
