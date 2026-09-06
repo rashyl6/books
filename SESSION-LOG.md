@@ -10,6 +10,12 @@ Read it here on github.com, or rendered together with the commit history at
 
 <!-- log -->
 
+### 2026-09-06 12:20 UTC · main
+
+Fall back to HTTPS when the SSH remote is read-only
+
+- `tools/save.sh`
+
 ### 2026-09-06 12:19 UTC · main
 
 Add remote-session workflow: save.sh, session log, status page

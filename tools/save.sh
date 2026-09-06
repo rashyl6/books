@@ -98,9 +98,20 @@ SHA="$(git rev-parse --short HEAD)"
 say "Committed $SHA — $MSG"
 
 # --- push -------------------------------------------------------------------
+# A cloud environment may hand us a read-only SSH deploy key while the gh CLI
+# holds a token that can write, so an SSH failure is retried over HTTPS before
+# we call it a day.
 PUSH_ERR="$(mktemp)"
-if timeout 60 git push -q origin "HEAD:$BRANCH" 2>"$PUSH_ERR"; then
+ORIGIN_URL="$(git remote get-url origin 2>/dev/null || echo '')"
+HTTPS_URL="$(printf '%s' "$ORIGIN_URL" | sed -e 's#^git@github\.com:#https://github.com/#' -e 's#^ssh://git@github\.com/#https://github.com/#')"
+
+push_to() { timeout 60 git push -q "$1" "HEAD:$BRANCH" 2>"$PUSH_ERR"; }
+
+if push_to origin; then
     say "Pushed to origin/$BRANCH → $SITE/status.html"
+elif [ -n "$HTTPS_URL" ] && [ "$HTTPS_URL" != "$ORIGIN_URL" ] && push_to "$HTTPS_URL"; then
+    say "Pushed to $BRANCH over HTTPS → $SITE/status.html"
+    say "  (the SSH remote was refused; run 'git remote set-url origin $HTTPS_URL' to skip that step next time)"
 else
     printf 'save: commit %s is safe locally, but the push failed:\n' "$SHA" >&2
     sed 's/^/  /' "$PUSH_ERR" >&2
