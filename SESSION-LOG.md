@@ -10,6 +10,12 @@ Read it here on github.com, or rendered together with the commit history at
 
 <!-- log -->
 
+### 2026-09-06 12:37 UTC · main
+
+Add Stop hook: auto-commit and push at the end of every turn
+
+- `.claude/settings.json`
+
 ### 2026-09-06 12:21 UTC · main
 
 Document the Stop hook as opt-in with its exact config
