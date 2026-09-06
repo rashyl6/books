@@ -12,6 +12,12 @@ Read it here on github.com, or rendered together with the commit history at
 
 ### 2026-09-06 12:21 UTC · main
 
+Document the Stop hook as opt-in with its exact config
+
+- `README.md`
+
+### 2026-09-06 12:21 UTC · main
+
 Read the session log from the GitHub API to dodge CDN staleness
 
 - `status.html`

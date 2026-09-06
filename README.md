@@ -229,7 +229,7 @@ and the result is readable from a phone without a terminal.
 | `tools/save.sh` | Commits, writes a log entry, and pushes — in one step. The push is what makes work survive. |
 | `SESSION-LOG.md` | Running record of every save, newest first. Renders fine on github.com from a phone. |
 | `status.html` | That log plus recent commits, styled to match the site. |
-| `.claude/settings.json` | A `Stop` hook running `save.sh --auto` each time Claude finishes a turn. |
+| `.claude/settings.json` | Optional `Stop` hook running `save.sh --auto` each time Claude finishes a turn. |
 
 ### Saving by hand
 
@@ -253,9 +253,31 @@ Cloudflare Pages at `rasmushyllengren.com/books` stays the production deploy
 (see *Deploy to Cloudflare Pages* above). GitHub Pages is the preview you check
 from your phone before promoting anything.
 
-### Turning the automatic saving off
+### Saving automatically
 
-Delete the `Stop` block from `.claude/settings.json`, or the whole file.
+To have every Claude turn end in a commit and a push without asking, create
+`.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/tools/save.sh\" --auto",
+            "timeout": 90
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Turns that changed nothing produce no commit. To stop it again, delete the file.
 `tools/save.sh` keeps working by hand either way.
 
 *Created for rasmushyllengren.com/books*
