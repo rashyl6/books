@@ -1,0 +1,19 @@
+# Session log
+
+What happened in this repo, entry by entry. Each one is written by
+`tools/save.sh` at the moment the work was pushed — so this file is the part of
+a Claude session that outlives the session. When a cloud environment gets
+deleted the transcript goes with it; this does not.
+
+Read it here on github.com, or rendered together with the commit history at
+[rashyl6.github.io/books/status.html](https://rashyl6.github.io/books/status.html).
+
+<!-- log -->
+
+### 2026-09-06 12:19 UTC · main
+
+Add remote-session workflow: save.sh, session log, status page
+
+- `README.md`
+- `status.html`
+- `tools/save.sh`

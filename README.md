@@ -214,4 +214,48 @@ If your JSON includes author data, modify the `renderBookCard` function in `scri
 
 ---
 
+---
+
+## Working on this remotely
+
+The setup this supports: Claude runs in a cloud environment, driven from a
+phone. That environment can be deleted at any moment — and when it is, the
+session transcript and anything unsaved inside it are gone for good. The pieces
+below exist so that never costs any work: everything lands in git as it happens,
+and the result is readable from a phone without a terminal.
+
+| File | What it does |
+|---|---|
+| `tools/save.sh` | Commits, writes a log entry, and pushes — in one step. The push is what makes work survive. |
+| `SESSION-LOG.md` | Running record of every save, newest first. Renders fine on github.com from a phone. |
+| `status.html` | That log plus recent commits, styled to match the site. |
+| `.claude/settings.json` | A `Stop` hook running `save.sh --auto` each time Claude finishes a turn. |
+
+### Saving by hand
+
+```bash
+tools/save.sh                     # message generated from what changed
+tools/save.sh "rework the grid"   # your own message
+```
+
+A clean tree is a no-op. If the push fails, the commit is still made locally and
+re-running the script later pushes it — the script never fails the caller.
+
+### Checking in from the phone
+
+GitHub Pages serves this repo directly, and redeploys within a minute of every
+push to `main`:
+
+- **The site** — <https://rashyl6.github.io/books/> — the real page, live
+- **The status page** — <https://rashyl6.github.io/books/status.html> — what changed and when
+
+Cloudflare Pages at `rasmushyllengren.com/books` stays the production deploy
+(see *Deploy to Cloudflare Pages* above). GitHub Pages is the preview you check
+from your phone before promoting anything.
+
+### Turning the automatic saving off
+
+Delete the `Stop` block from `.claude/settings.json`, or the whole file.
+`tools/save.sh` keeps working by hand either way.
+
 *Created for rasmushyllengren.com/books*
