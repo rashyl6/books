@@ -225,12 +225,28 @@ function parseLog(text) {
         });
 }
 
+// The Pages CDN can serve a minutes-old copy of SESSION-LOG.md, which would
+// show a log that lags the commits listed right above it. The GitHub API is
+// authoritative and fresh, so it goes first; the served file is the fallback
+// for when the API is rate-limited or this page is opened from disk.
+async function fetchLog() {
+    try {
+        const res = await fetch('https://api.github.com/repos/' + REPO + '/contents/SESSION-LOG.md?ref=main', {
+            headers: { Accept: 'application/vnd.github.raw' }
+        });
+        if (res.ok) return await res.text();
+    } catch (err) {
+        /* fall through to the local copy */
+    }
+    const res = await fetch('SESSION-LOG.md?t=' + Date.now());
+    if (!res.ok) throw new Error('SESSION-LOG.md returned ' + res.status);
+    return await res.text();
+}
+
 async function loadLog() {
     const target = document.getElementById('log');
     try {
-        const res = await fetch('SESSION-LOG.md?t=' + Date.now());
-        if (!res.ok) throw new Error('SESSION-LOG.md returned ' + res.status);
-        const entries = parseLog(await res.text());
+        const entries = parseLog(await fetchLog());
         if (!entries.length) {
             target.replaceChildren(el('p', 'muted', 'No entries yet — the first save will write one.'));
             return;
